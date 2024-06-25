@@ -6,9 +6,11 @@ from django.utils import timezone
 
 class Subscription(models.Model):
     PLAN_CHOICES = [
-        ('A', 'A'), #changed
+        ('A', 'A'),
         ('B', 'B'),
         ('C', 'C'),
+        ('D', 'D'),
+        ('Z', 'Z'),
     ]
     plan = models.CharField(max_length=1, choices= PLAN_CHOICES, primary_key=True)
     duration = models.CharField(max_length=20, null=True, blank=True)
@@ -24,7 +26,7 @@ class Tenant(models.Model):
     contact_number = models.CharField(max_length=20)
     image = models.ImageField(upload_to='tenant_images/', null=True, blank=True)
     plan_subscription = models.CharField(max_length=1, null=True, blank=True)  
-    status = models.CharField(max_length=10, null=True, blank=True)
+    status = models.CharField(max_length=10)
 
     def __str__(self):
         return self.name
@@ -40,7 +42,6 @@ class Tenant(models.Model):
             self.status = 'Invalid'
         self.save()
 
-
 class Subscriber(models.Model):
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
     plan = models.ForeignKey(Subscription, on_delete=models.CASCADE)
@@ -51,23 +52,64 @@ class Subscriber(models.Model):
         return f"{self.tenant.name} - {self.plan.get_plan_display()}"
 
     def calculate_end_date(self):
-        if self.plan.plan == 'A': #changed
+        if self.plan.plan   == 'A': 
             return self.start_date + relativedelta(months=1)
         elif self.plan.plan == 'B':
             return self.start_date + relativedelta(months=6)
         elif self.plan.plan == 'C':
             return self.start_date + relativedelta(months=12)
+        elif self.plan.plan == 'D':
+            return self.start_date + relativedelta(months=24)
+        elif self.plan.plan == 'Z':
+            return self.start_date + relativedelta(days=1)
+
         return None
 
     def save(self, *args, **kwargs):
         if not self.start_date:
             self.start_date = date.today()
 
+        # save 'calculate_end_date' as 'end_date'
         self.end_date = self.calculate_end_date()
-
+        # save 'get_plan_display' as 'tenant.plan_subscription'
         self.tenant.plan_subscription = self.plan.get_plan_display()
+        
         super().save(*args, **kwargs)
         self.tenant.update_status()
 
+class Temporary(models.Model):
+    
+    temp_tenant  = models.ForeignKey(Tenant, on_delete=models.CASCADE)
+    temp_plan = models.ForeignKey(Subscription, on_delete=models.CASCADE)
+    temp_subscriber = models.ForeignKey(Subscriber, on_delete=models.CASCADE)
+    temp_tenant_name = models.CharField(max_length=100)
+    temp_duration = models.CharField(max_length=20)
+    temp_start_date = models.DateField()
+    temp_end_date = models.DateField()
+    temp_price = models.DecimalField(max_digits=6, decimal_places=2)
+
+    def __str__(self):
+        return f"Temporary: {self.temp_tenant.name} - {self.temp_plan.plan} - {self.temp_subscriber.id}"
+
+    # def update_temp_status(self):
+    #     # if all records submitted successfully :
+    #         self.temp_status = 'Successful'
+
+    #     else:
+    #         self.temp_status = 'Unsuccessful'
+    #     self.save()
+
+    # def val_temp_status(self):
 
 
+    # def update_temp_reason(self):
+    #     if self.temp_status == 'Successful': 
+    #         self.temp_reason = '-'
+
+    #     elif self.temp_status == 'Unsuccessful':
+    #         if 
+    #         self.temp_reason = ''
+
+
+
+    #     return f"Record with name {self.temp_tenant.name} is a duplicate"

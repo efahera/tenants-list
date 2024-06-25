@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status 
 from rest_framework.response import Response
-from .models import Tenant, Subscriber, Subscription
-from .serializers import TenantSerializer, SubscriberSerializer, SubscriptionSerializer
+from .models import Tenant, Subscriber, Subscription, Temporary
+from .serializers import TenantSerializer, SubscriberSerializer, SubscriptionSerializer, TemporarySerializer
 from rest_framework.pagination import PageNumberPagination
 
 class CustomPagination(PageNumberPagination):
@@ -112,7 +112,6 @@ class SubscriberViewSet(viewsets.ModelViewSet):
         subscriber.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
 class SubscriptionViewSet(viewsets.ModelViewSet):
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
@@ -165,5 +164,7 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
         subscription.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
+class TemporaryViewSet(viewsets.ModelViewSet):
+    queryset = Temporary.objects.all()
+    serializer_class = TemporarySerializer
 
