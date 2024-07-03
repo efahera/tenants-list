@@ -24,8 +24,10 @@ class Command(BaseCommand):
             cursor.execute("ALTER SEQUENCE todo_api_temporary_id_seq RESTART WITH 1")
 
         subscribers = Subscriber.objects.all()
+        temp_records = []
+
         for subscriber in subscribers:
-            Temporary.objects.create(
+            temp_records.append(Temporary(
                 temp_tenant=subscriber.tenant,
                 temp_plan=subscriber.plan,
                 temp_subscriber=subscriber,
@@ -34,6 +36,10 @@ class Command(BaseCommand):
                 temp_start_date=subscriber.start_date,
                 temp_end_date=subscriber.end_date,
                 temp_price=subscriber.plan.price
-            )
+            ))
+
+            self.stdout.write(self.style.SUCCESS(f'Created temporary record for tenant ID {subscriber.tenant.id}'))
+
+        Temporary.objects.bulk_create(temp_records)
 
         self.stdout.write(self.style.SUCCESS('Successfully populated the Temporary table'))

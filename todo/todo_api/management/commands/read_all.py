@@ -1,49 +1,42 @@
-# todo_api/management/commands/update_all.py
+# todo_api/management/commands/read_temporary.py
 
 '''
 STEP 1
 
-update_all.py is to read data from CSV file.
+update_temporary.py is to clear temporary table and populates the latest data.
 
 To run this command:
-python manage.py update_all --tenant_csv=path/to/tenant.csv --subscriber_csv=path/to/subscriber.csv --subscription_csv=path/to/subscription.csv 
+python manage.py read_all --tenant_csv=path/to/tenant.csv --subscription_csv=path/to/subscription.csv --subscriber_csv=path/to/subscriber.csv 
 
 '''
 
 from django.core.management.base import BaseCommand
-from todo_api.models import Tenant, Subscriber, Subscription, Temporary
+from todo_api.models import Tenant, Subscriber, Subscription
 import csv
 from datetime import datetime
+from django.db import connection
 
 class Command(BaseCommand):
-    help = 'Update Tenant, Subscriber, Subscription, and Temporary tables from CSV files'
+    help = 'Update Tenant, Subscriber, and Subscription tables from CSV files'
 
     def add_arguments(self, parser):
         parser.add_argument('--tenant_csv', type=str, help='The path to the Tenant CSV file to be processed')
-        parser.add_argument('--subscriber_csv', type=str, help='The path to the Subscriber CSV file to be processed')
         parser.add_argument('--subscription_csv', type=str, help='The path to the Subscription CSV file to be processed')
-        parser.add_argument('--temporary_csv', type=str, help='The path to the Temporary CSV file to be processed')
+        parser.add_argument('--subscriber_csv', type=str, help='The path to the Subscriber CSV file to be processed')
 
     def handle(self, *args, **kwargs):
         if kwargs['tenant_csv']:
-            self.update_tenant(kwargs['tenant_csv'])
-        
-        if kwargs['subscriber_csv']:
-            self.update_subscriber(kwargs['subscriber_csv'])
+            self.read_tenant(kwargs['tenant_csv'])
         
         if kwargs['subscription_csv']:
-            self.update_subscription(kwargs['subscription_csv'])
-        
-        if kwargs['temporary_csv']:
-            self.update_temporary(kwargs['temporary_csv'])
+            self.read_subscription(kwargs['subscription_csv'])
 
+        if kwargs['subscriber_csv']:
+            self.read_subscriber(kwargs['subscriber_csv'])
+        
         self.stdout.write(self.style.SUCCESS('Successfully processed all CSV files'))
 
-        # self.populate_tenant()
-        # self.populate_subscriber()
-        # self.populate_subscription()
-
-    def update_tenant(self, csv_file_path):
+    def read_tenant(self, csv_file_path):
         with open(csv_file_path, 'r') as file:
             reader = csv.DictReader(file)
             for row in reader:
@@ -76,7 +69,27 @@ class Command(BaseCommand):
                 else:
                     self.stdout.write(self.style.SUCCESS(f'Updated tenant {id}'))
 
-    def update_subscriber(self, csv_file_path):
+    def read_subscription(self, csv_file_path):
+        with open(csv_file_path, 'r') as file: 
+            reader = csv.DictReader(file)
+            for row in reader:
+                plan_id = row['plan']
+                duration = row['duration']
+                price = row['price']
+
+                subscription, created = Subscription.objects.update_or_create(
+                    plan=plan_id,
+                    defaults={
+                        'duration': duration, 
+                        'price': price
+                    }
+                )
+                if created:
+                    self.stdout.write(self.style.SUCCESS(f'Created subscription {plan_id}'))
+                else:
+                    self.stdout.write(self.style.SUCCESS(f'Updated subscription {plan_id}'))
+
+    def read_subscriber(self, csv_file_path):
         with open(csv_file_path, 'r') as file:
             reader = csv.DictReader(file)
             for row in reader:
@@ -111,22 +124,3 @@ class Command(BaseCommand):
                     self.stdout.write(self.style.SUCCESS(f'Created subscriber {id}'))
                 else:
                     self.stdout.write(self.style.SUCCESS(f'Updated subscriber {id}'))
-
-    def update_subscription(self, csv_file_path):
-        with open(csv_file_path, 'r') as file: 
-            reader = csv.DictReader(file)
-            for row in reader:
-                plan_id = row['plan']
-                duration = row['duration']
-                price = row['price']
-
-                # Update if exists, create if not
-                subscription, created = Subscription.objects.update_or_create(
-                    plan=plan_id,
-                    defaults={'duration': duration, 'price': price}
-                )
-                if created:
-                    self.stdout.write(self.style.SUCCESS(f'Created subscription {plan_id}'))
-                else:
-                    self.stdout.write(self.style.SUCCESS(f'Updated subscription {plan_id}'))
-
