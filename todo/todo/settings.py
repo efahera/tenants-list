@@ -75,20 +75,13 @@ WSGI_APPLICATION = 'todo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "tenant",
-        "USER": "postgres",
-        "PASSWORD": "password",
-        "HOST": "127.0.0.1",
+        "NAME": "training_database_aq4e",
+        "USER": "user",
+        "PASSWORD": "wNOSFOiLkqbPyUrGffJ9XecgJTcCFH8D",
+        "HOST": "dpg-cq74h5tds78s738prra0-a.singapore-postgres.render.com",
         "PORT": "5432",
     }
 }

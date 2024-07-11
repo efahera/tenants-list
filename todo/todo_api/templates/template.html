@@ -1,0 +1,830 @@
+<!-- #react.js
+    const handleDownloadClick = async () => {
+        try {
+            const response = await Axios.get('http://127.0.0.1:8000/api/generate-pdf/');
+            setPdfData(response.data);
+            console.log('PDF Generated');
+        } 
+    
+        catch (error) {
+            console.error('Error generating PDF', error);
+        }
+    }; -->
+
+<!-- <Button variant="contained" onClick={handleDownloadClick}>
+    <Typography variant="button" component="div">
+        Download PDF
+    </Typography>
+</Button> -->
+
+<!-- #views.py
+    class PDFGenerationAndUploadView(APIView):
+        def get(self, request, *args, **kwargs):
+            try:
+                today = date.today().strftime("%Y-%m-%d")
+                data = {
+                    'receipt_date': today,
+                    'birth_certificate': '003928-93-2674',
+                    'class': 'Banana Class',
+                    'amount': '1,000.00',
+                    'student_name': 'Testing 43434',
+                    'receipt_no': '1234567',
+                    'student_name': 'John Doe',
+                    'fee_description': 'First payment',
+                    'subtotal': '1,000.00',
+                    'gst': '60.00',
+                    'total': '1,060.00',
+                    'bank_no': '7364 3781 3746',
+                }
+
+    template_instance = EmailTemplateHtmlTable.objects.get(pk=76)
+    serializer = EmailTemplateHtmlTableSerializer(template_instance)
+    html_code = serializer.data.get('htmlFormat', '') 
+
+    # Parse HTML content using BeautifulSoup
+    soup = BeautifulSoup(html_code, 'html.parser')
+    
+    # Remove comments from the HTML
+    comments = soup.find_all(text=lambda text: isinstance(text, Comment))
+    for comment in comments:
+        comment.extract()
+    
+    # Remove media query styles
+    for style_tag in soup.find_all('style'):
+        style_text = str(style_tag.string)
+        if '@media' in style_text:
+            style_tag.extract()
+    
+    for u_row_div in soup.find_all('div', class_='u-row'):
+        u_row_div['style'] = str(u_row_div.get('style', '')) + 'max-width: 100%;'
+    
+    for img_tag in soup.find_all('img', src='https://cdn.tools.unlayer.com/image/placeholder.png'):
+        table_tag = img_tag.find_parent('table')
+        if table_tag:
+            # Find the parent of the parent table and remove it as well
+            parent_table_tag = table_tag.find_parent('table')
+            if parent_table_tag:
+                parent_table_tag.extract()
+    
+    # Find and replace <div> and <p> tags
+    div_style = "font-size: 14px; line-height: 140%; text-align: right; word-wrap: break-word;"
+    for div_tag in soup.find_all('div', style=div_style):
+        # Extract the text from each <p> and create a new <div> for each line
+        lines = [line.strip() for line in div_tag.stripped_strings]
+        new_div = soup.new_tag('div')
+        for line in lines:
+            new_line_div = soup.new_tag('div', style="text-align: right")
+            new_line_div.string = line
+            new_div.append(new_line_div)
+            new_div.append(soup.new_tag('br'))
+    
+        # Replace the original div with the new div
+        div_tag.replace_with(new_div)
+    
+    # Get the cleaned HTML code
+    cleaned_html = str(soup)
+    
+    template = Template(cleaned_html)
+    html = template.render(Context(data))
+    
+    file_path = os.path.join('enjoey_api', 'templates', 'pdf', 'template.html')
+    with open(file_path, 'w') as file:
+        file.write(html)
+    
+    pdf_output_path = os.path.join('pdf', 'template.pdf')
+    config = pdfkit.configuration(wkhtmltopdf='C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe')
+    pdfkit.from_string(html, pdf_output_path, configuration=config)
+    
+    s3 = S3Boto3Storage()
+    storage_path = f"{settings.PDF_LOCATION}/testTemplate.pdf"
+    s3.save(storage_path, open(pdf_output_path, 'rb'))
+    
+    return JsonResponse({'success': 'PDF generated and uploaded to S3'}, status=200)
+    
+    except Exception as e:
+        print('Error:', e)
+        return JsonResponse({'error': 'Error generating and uploading PDF'}, status=500)-->
+    
+    <!-- # template.html 
+            
+        <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+        <html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office"
+            xmlns:v="urn:schemas-microsoft-com:vml">
+
+        <head>
+
+            <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+            <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+            <meta name="x-apple-disable-message-reformatting" />
+            <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+            <title></title>
+
+        </head>
+
+        <body class="clean-body u_body" style="margin: 0;padding: 0;-webkit-text-size-adjust: 100%;background-color: #e7e7e7;color: #000000">
+
+            <table cellpadding="0" cellspacing="0" style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;min-width: 320px;Margin: 0 auto;background-color: #e7e7e7;width:100%">
+                <tbody>
+                    <tr style="vertical-align: top">
+                        <td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
+
+                            <div class="u-row-container" style="padding: 0px;background-color: transparent">
+                                <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;max-width: 100%;">
+                                    <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+                                        <div class="u-col u-col-66p67" style="max-width: 320px;min-width: 333.33px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <h2 style="margin: 0px; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 20px; font-weight: 400;">
+                                                                    <strong>RECEIPT</strong></h2>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="u-col u-col-33p33" style="max-width: 320px;min-width: 166.67px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                                        <tr>
+                                                                            <td align="right" style="padding-right: 0px;padding-left: 0px;">
+                                                                                <img align="right" alt="" border="0" 
+                                                                                src="https://assets.unlayer.com/stock-templates/1704684936330-tenant_01_logo_FA_En-Joey_Logo_1.png" 
+                                                                                style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 146.67px;" 
+                                                                                title="" 
+                                                                                width="146.67" />
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="u-row-container" style="padding: 0px;background-color: transparent">
+                                <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;max-width: 100%;">
+                                    <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+                                        <div class="u-col u-col-34p4" style="max-width: 320px;min-width: 172px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="u-col u-col-65p6" style="max-width: 320px;min-width: 328px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div>
+                                                                        <div style="text-align: right">GLORIOUS EDUCATION SDN BHD (613735-P)
+                                                                        </div><br />
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div>
+                                                                        <div style="text-align: right">35, JALAN PUTERI 10/2 BANDAR PUTERI
+                                                                        </div><br />
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div>
+                                                                        <div style="text-align: right">Tel: 03-80664522 Email: ptcc2003@outlook.com</div><br />
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="u-row-container" style="padding: 0px;background-color: transparent">
+                                <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;max-width: 100%;">
+                                    <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+
+                                        <div class="u-col u-col-43p4" style="max-width: 320px;min-width: 217px;display: table-cell;vertical-align: top;">
+                                            <div style="background-color: #dddcdc;height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div>
+                                                                        <div>RECEIPT NO: <strong>1234567</strong></div><br/>
+                                                                        <div>DATE: 2024-02-02</div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="u-col u-col-56p6" style="max-width: 320px;min-width: 283px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="u-row-container" style="padding: 0px;background-color: transparent">
+                                <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;max-width: 100%;">
+                                    <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+
+                                        <div class="u-col u-col-100" style="max-width: 320px;min-width: 500px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div>
+                                                                        <div>Student: John Doe</div><br/>
+                                                                        <div>Birth Certificate: 003928-93-2674</div><br/>
+                                                                        <div>Class: Banana Class</div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="u-row-container" style="padding: 0px;background-color: transparent">
+                                <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;max-width: 100%;">
+                                    <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+
+                                        <div class="u-col u-col-100" style="max-width: 320px;min-width: 500px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" height="0px" style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;border-top: 1px solid #BBBBBB;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%" width="100%">
+                                                                        <tbody>
+                                                                            <tr style="vertical-align: top">
+                                                                                <td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top;font-size: 0px;line-height: 0px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
+                                                                                    <span> </span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="u-row-container" style="padding: 0px;background-color: transparent">
+                                <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;max-width: 100%;">
+                                    <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+
+                                        <div class="u-col u-col-66p67" style="max-width: 320px;min-width: 333.33px;display: table-cell;vertical-align: top;">
+                                            <div style="background-color: #c7c7c7;height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
+                                                                        <p style="line-height: 140%;">Fee Description
+                                                                        </p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="u-col u-col-33p33" style="max-width: 320px;min-width: 166.67px;display: table-cell;vertical-align: top;">
+                                            <div style="background-color: #c7c7c7;height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
+                                                                        <p style="line-height: 140%;">Amount</p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="u-row-container" style="padding: 0px;background-color: transparent">
+                                <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;max-width: 100%;">
+                                    <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+
+
+                                        <div class="u-col u-col-66p67" style="max-width: 320px;min-width: 333.33px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div>
+                                                                        <div>First payment</div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="u-col u-col-33p33" style="max-width: 320px;min-width: 166.67px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div>
+                                                                        <div>RM 1,000.00</div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="u-row-container" style="padding: 0px;background-color: transparent">
+                                <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;max-width: 100%;">
+                                    <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+
+
+                                        <div class="u-col u-col-100" style="max-width: 320px;min-width: 500px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" height="0px" style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;border-top: 1px solid #BBBBBB;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%" width="100%">
+                                                                        <tbody>
+                                                                            <tr style="vertical-align: top">
+                                                                                <td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top;font-size: 0px;line-height: 0px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
+                                                                                    <span> </span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="u-row-container" style="padding: 0px;background-color: transparent">
+                                <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;max-width: 100%;">
+                                    <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+
+
+                                        <div class="u-col u-col-44p93" style="max-width: 320px;min-width: 224.65px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="u-col u-col-31p34" style="max-width: 320px;min-width: 156.7px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div>
+                                                                        <div>Subtotal:</div><br />
+                                                                        <div>GST (0%):</div><br />
+                                                                        <div>Total:</div><br />
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="u-col u-col-23p73" style="max-width: 320px;min-width: 118.65px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div>
+                                                                        <div style="text-align: right">
+                                                                            <div>RM 1,000.00</div><br />
+                                                                            <div>RM 60.00</div><br />
+                                                                            <div>RM 1,060.00</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="u-row-container" style="padding: 0px;background-color: transparent">
+                                <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;max-width: 100%;">
+                                    <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+
+
+                                        <div class="u-col u-col-100" style="max-width: 320px;min-width: 500px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div>
+                                                                        <strong>Remarks</strong>
+                                                                        <p>Bank Transfer to CIMB 7364 3781 3746 with your childs name stated as reference
+                                                                        </p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="u-row-container" style="padding: 0px;background-color: transparent">
+                                <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;max-width: 100%;">
+                                    <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+
+                                        <div class="u-col u-col-100" style="max-width: 320px;min-width: 500px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
+                                                                        <p style="line-height: 140%;"> <strong>Payments</strong></p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="u-row-container" style="padding: 0px;background-color: transparent">
+                                <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;max-width: 100%;">
+                                    <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+
+
+                                        <div class="u-col u-col-20" style="max-width: 320px;min-width: 100px;display: table-cell;vertical-align: top;">
+                                            <div style="background-color: #c7c7c7;height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
+                                                                        <p style="line-height: 140%;">Date</p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="u-col u-col-20" style="max-width: 320px;min-width: 100px;display: table-cell;vertical-align: top;">
+                                            <div style="background-color: #c7c7c7;height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
+                                                                        <p style="line-height: 140%;">Mode</p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="u-col u-col-20" style="max-width: 320px;min-width: 100px;display: table-cell;vertical-align: top;">
+                                            <div style="background-color: #c7c7c7;height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
+                                                                        <p style="line-height: 140%;">Payment Reference</p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="u-col u-col-20" style="max-width: 320px;min-width: 100px;display: table-cell;vertical-align: top;">
+                                            <div style="background-color: #c7c7c7;height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
+                                                                        <p style="line-height: 140%;">Receipt No.</p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="u-col u-col-20" style="max-width: 320px;min-width: 100px;display: table-cell;vertical-align: top;">
+                                            <div style="background-color: #c7c7c7;height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
+                                                                        <p style="line-height: 140%;">Amount</p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="u-row-container" style="padding: 0px;background-color: transparent">
+                                <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;max-width: 100%;">
+                                    <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+
+
+                                        <div class="u-col u-col-20" style="max-width: 320px;min-width: 100px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
+                                                                        <p style="line-height: 140%;">02 Jan 2024</p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="u-col u-col-20" style="max-width: 320px;min-width: 100px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
+                                                                        <p style="line-height: 140%;">Interbank Transfer</p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="u-col u-col-20" style="max-width: 320px;min-width: 100px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
+                                                                        <p style="line-height: 140%;">CIMB</p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="u-col u-col-20" style="max-width: 320px;min-width: 100px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div>
+                                                                        <p>1234567</p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="u-col u-col-20" style="max-width: 320px;min-width: 100px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div>
+                                                                        <p>1,060.00</p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="u-row-container" style="padding: 0px;background-color: transparent">
+                                <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;max-width: 100%;">
+                                    <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+
+                                        <div class="u-col u-col-100" style="max-width: 320px;min-width: 500px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="u-row-container" style="padding: 0px;background-color: transparent">
+                                <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;max-width: 100%;">
+                                    <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+
+                                        <div class="u-col u-col-100" style="max-width: 320px;min-width: 500px;display: table-cell;vertical-align: top;">
+                                            <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:arial,helvetica,sans-serif;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="left" style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;">
+                                                                    <div style="font-size: 10px; line-height: 140%; text-align: left; word-wrap: break-word;">
+                                                                        <p style="line-height: 140%;">This is a temporary generated receipt </p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </body>
+
+        </html>  -->

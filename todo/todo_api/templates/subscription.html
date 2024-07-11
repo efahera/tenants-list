@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            @page {
+                size: A4;
+                margin: 20mm;
+            }
+
+        .content {
+            width: 210mm; 
+            height: 297mm;
+            margin: auto;
+        }
+
+        table {
+            width: 80%;
+            table-layout: auto; 
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center; 
+        }
+        footer {
+            bottom: 0;
+            width: 80%;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        hr {
+            display: block;
+            height: 2px;
+            background: transparent;
+            width: 80%;
+            border: none;
+            border-top: solid 2px #000000;
+        }
+
+        </style>
+        <script>
+            function displayDateTime() {
+                const now = new Date();
+                const dateTimeString = now.toLocaleString();
+                document.getElementById('date-time').innerText = dateTimeString;
+            }
+    
+            window.onload = displayDateTime;
+        </script>
+    
+    </head>
+    <body class="content">
+    <header>
+        <h1 style="text-align: center;">SUBSCRIPTION REPORT</h1>
+        <hr>
+    </header>
+
+    <table>
+        <thead style="background-color:lightgray">
+            <tr>
+                <th>PLAN</th>
+                <th>DURATION</th>
+                <th>PRICE(RM)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>A</td>
+                <td>1 MONTH</td>
+                <td>9.90</td>
+            </tr>
+            <tr>
+                <td>B</td>
+                <td>6 MONTHS</td>
+                <td>49.90</td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td>12 MONTHS</td>
+                <td>89.90</td>
+            </tr>
+            <tr>
+                <td>D</td>
+                <td>24 MONTHS</td>
+                <td>159.90</td>
+            </tr>
+            <tr>
+                <td>Z</td>
+                <td>1 DAY</td>
+                <td>1.90</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+
+    <hr>
+
+    <footer class="footer">
+        Generated on: <span id="date-time"></span>
+    </footer>
+</body>
+</html>

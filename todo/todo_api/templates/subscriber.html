@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            @page {
+                size: A4;
+                margin: 20mm;
+            }
+
+        .content {
+            width: 210mm; 
+            height: 297mm;
+            margin: auto;
+        }
+
+        table {
+            width: 80%;
+            table-layout: auto; 
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center; 
+        }
+        footer {
+            bottom: 0;
+            width: 80%;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        hr {
+            display: block;
+            height: 2px;
+            background: transparent;
+            width: 80%;
+            border: none;
+            border-top: solid 2px #000000;
+        }
+
+        </style>
+        <script>
+            function displayDateTime() {
+                const now = new Date();
+                const dateTimeString = now.toLocaleString();
+                document.getElementById('date-time').innerText = dateTimeString;
+            }
+    
+            window.onload = displayDateTime;
+        </script>
+    
+    </head>
+    <body class="content">
+    <header>
+        <h1 style="text-align: center;">SUBSCRIBER REPORT</h1>
+        <hr>
+    </header>
+
+    <table>
+        <thead style="background-color:lightgray">
+            <tr>
+                <th>PLAN ID</th>
+                <th>TENANT ID</th>
+                <th>START DATE</th>
+                <th>END DATE</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>A</td>
+                <td>1</td>
+                <td>16/05/2024</td>
+                <td>16/06/2024</td>
+            </tr>
+            <tr>
+                <td>B</td>
+                <td>2</td>
+                <td>16/05/2024</td>
+                <td>16/11/2024</td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td>3</td>
+                <td>23/05/2024</td>
+                <td>23/05/2025</td>
+            </tr>
+            <tr>
+                <td>D</td>
+                <td>4</td>
+                <td>23/05/2024</td>
+                <td>23/05/2026</td>
+            </tr>
+            <tr>
+                <td>Z</td>
+                <td>5</td>
+                <td>17/05/2024</td>
+                <td>18/05/2024</td>
+            </tr>
+            <tr>
+                <td>B</td>
+                <td>6</td>
+                <td>17/05/2024</td>
+                <td>17/11/2024</td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td>7</td>
+                <td>20/05/2024</td>
+                <td>20/05/2025</td>
+            </tr>
+            <tr>
+                <td>B</td>
+                <td>8</td>
+                <td>24/05/2024</td>
+                <td>24/11/2024</td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td>9</td>
+                <td>29/05/2024</td>
+                <td>29/05/2025</td>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>10</td>
+                <td>12/06/2024</td>
+                <td>12/07/2024</td>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>11</td>
+                <td>18/06/2024</td>
+                <td>18/07/2024</td>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>12</td>
+                <td>18/06/2024</td>
+                <td>18/07/2024</td>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>13</td>
+                <td>18/06/2024</td>
+                <td>18/07/2024</td>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>14</td>
+                <td>25/06/2024</td>
+                <td>25/07/2024</td>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>15</td>
+                <td>25/06/2024</td>
+                <td>25/07/2024</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+
+    <hr>
+
+    <footer class="footer">
+        Generated on: <span id="date-time"></span>
+    </footer>
+</body>
+</html>

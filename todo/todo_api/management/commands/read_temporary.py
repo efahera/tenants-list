@@ -29,7 +29,7 @@ class Command(BaseCommand):
         if kwargs['temporary_csv']:
             self.read_temporary(kwargs['temporary_csv'])
 
-        self.stdout.write(self.style.SUCCESS('Successfully processed temporary CSV file'))
+        self.stdout.write(self.style.SUCCESS('Read Temporary CSV file is success.'))
 
     def read_temporary(self, csv_file_path):
         with open(csv_file_path, 'r') as file:
@@ -46,9 +46,9 @@ class Command(BaseCommand):
                 temp_tenant_name = row['temp_tenant_name']
 
                 if temp_start_date:
-                    temp_start_date = datetime.strptime(temp_start_date, '%d/%m/%Y').date()
+                    temp_start_date = datetime.strptime(temp_start_date, '%Y-%m-%d').date()
                 if temp_end_date:
-                    temp_end_date = datetime.strptime(temp_end_date, '%d/%m/%Y').date()
+                    temp_end_date = datetime.strptime(temp_end_date, '%Y-%m-%d').date()
 
                 try:
                     tenant = Tenant.objects.get(id=temp_tenant_id)

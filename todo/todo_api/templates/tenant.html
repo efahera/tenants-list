@@ -1,0 +1,227 @@
+<!-- <Button variant="contained" onClick={handleDownloadClick}>
+    <Typography variant="button" component="div">
+        Download PDF
+    </Typography>
+</Button> -->
+
+<!DOCTYPE HTML>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            @page {
+                size: A4;
+                margin: 20mm;
+            }
+
+        .content {
+            width: 210mm; 
+            height: 297mm;
+            margin: auto;
+        }
+
+        table {
+            width: 80%;
+            table-layout: auto; 
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center; 
+        }
+        footer {
+            bottom: 0;
+            width: 80%;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        hr {
+            display: block;
+            height: 2px;
+            background: transparent;
+            width: 80%;
+            border: none;
+            border-top: solid 2px #000000;
+        }
+
+        </style>
+        <script>
+            function displayDateTime() {
+                const now = new Date();
+                const dateTimeString = now.toLocaleString();
+                document.getElementById('date-time').innerText = dateTimeString;
+            }
+    
+            window.onload = displayDateTime;
+        </script>
+    
+    </head>
+    <body class="content">
+    <header>
+        <h1 style="text-align: center;">TENANT REPORT</h1>
+        <hr>
+    </header>
+
+    <table>
+        <thead style="background-color:lightgray">
+            <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>AGE</th>
+                <th>BIRTH DATE</th>
+                <th>CONTACT</th>
+                <th>PLAN</th>
+                <th>STATUS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>user1</td>
+                <td>32</td>
+                <td>31/10/1991</td>
+                <td>123456789</td>
+                <td>A</td>
+                <td>Expired</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>user2</td>
+                <td>24</td>
+                <td>6/06/2000</td>
+                <td>123456788</td>
+                <td>B</td>
+                <td>Ongoing</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>user3</td>
+                <td>23</td>
+                <td>15/10/2001</td>
+                <td>123456787</td>
+                <td>C</td>
+                <td>Ongoing</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>user4</td>
+                <td>27</td>
+                <td>6/04/1997</td>
+                <td>123456786</td>
+                <td>D</td>
+                <td>Ongoing</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>user5</td>
+                <td>24</td>
+                <td>13/08/2000</td>
+                <td>123456785</td>
+                <td>Z</td>
+                <td>Expired</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>user6</td>
+                <td>24</td>
+                <td>23/03/2000</td>
+                <td>123456784</td>
+                <td>B</td>
+                <td>Ongoing</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>user7</td>
+                <td>31</td>
+                <td>16/05/1993</td>
+                <td>123456787</td>
+                <td>C</td>
+                <td>Ongoing</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>user8</td>
+                <td>23</td>
+                <td>23/05/2001</td>
+                <td>123456781</td>
+                <td>B</td>
+                <td>Ongoing</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>user9</td>
+                <td>24</td>
+                <td>24/05/2000</td>
+                <td>123456789</td>
+                <td>C</td>
+                <td>Ongoing</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>user10</td>
+                <td>20</td>
+                <td>12/06/2004</td>
+                <td>123456786</td>
+                <td>A</td>
+                <td>Ongoing</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>user11</td>
+                <td>20</td>
+                <td>18/06/2004</td>
+                <td>123456784</td>
+                <td>A</td>
+                <td>Ongoing</td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>user12</td>
+                <td>20</td>
+                <td>18/06/2004</td>
+                <td>123456784</td>
+                <td>A</td>
+                <td>Ongoing</td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td>user13</td>
+                <td>20</td>
+                <td>18/06/2004</td>
+                <td>123456784</td>
+                <td>A</td>
+                <td>Ongoing</td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td>user14</td>
+                <td>20</td>
+                <td>20/06/2004</td>
+                <td>123456784</td>
+                <td>A</td>
+                <td>Ongoing</td>
+            </tr>
+            <tr>
+                <td>15</td>
+                <td>user15</td>
+                <td>20</td>
+                <td>20/06/2004</td>
+                <td>123456784</td>
+                <td>A</td>
+                <td>Ongoing</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+
+    <hr>
+
+    <footer class="footer">
+        Generated on: <span id="date-time"></span>
+    </footer>
+</body>
+</html>
