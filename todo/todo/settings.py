@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'todo_api'
+    'todo_api',
+    'test_migration',
 ]
 
 MIDDLEWARE = [
@@ -85,6 +86,17 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "tenant",
+#         "USER": "postgres",
+#         "PASSWORD": "password",
+#         "HOST": "127.0.0.1",
+#         "PORT": "5432",
+#     }
+# }
 
 
 # Password validation

@@ -26,7 +26,7 @@ class Tenant(models.Model):
     contact_number = models.CharField(max_length=20)
     image = models.ImageField(upload_to='tenant_images/', null=True, blank=True)
     plan_subscription = models.CharField(max_length=1, null=True, blank=True)  
-    status = models.CharField(max_length=10)
+    status = models.CharField(max_length=10, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -82,34 +82,11 @@ class Temporary(models.Model):
     temp_tenant  = models.ForeignKey(Tenant, on_delete=models.CASCADE)
     temp_plan = models.ForeignKey(Subscription, on_delete=models.CASCADE)
     temp_subscriber = models.ForeignKey(Subscriber, on_delete=models.CASCADE)
-    temp_tenant_name = models.CharField(max_length=100)
-    temp_duration = models.CharField(max_length=20)
-    temp_start_date = models.DateField()
-    temp_end_date = models.DateField()
-    temp_price = models.DecimalField(max_digits=6, decimal_places=2)
+    temp_tenant_name = models.CharField(max_length=100, blank=True, null=True)
+    temp_duration = models.CharField(max_length=20, blank=True, null=True)
+    temp_start_date = models.DateField(blank=True, null=True)
+    temp_end_date = models.DateField(blank=True, null=True)
+    temp_price = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
 
     def __str__(self):
         return f"Temporary: {self.temp_tenant.name} - {self.temp_plan.plan} - {self.temp_subscriber.id}"
-
-    # def update_temp_status(self):
-    #     # if all records submitted successfully :
-    #         self.temp_status = 'Successful'
-
-    #     else:
-    #         self.temp_status = 'Unsuccessful'
-    #     self.save()
-
-    # def val_temp_status(self):
-
-
-    # def update_temp_reason(self):
-    #     if self.temp_status == 'Successful': 
-    #         self.temp_reason = '-'
-
-    #     elif self.temp_status == 'Unsuccessful':
-    #         if 
-    #         self.temp_reason = ''
-
-
-
-    #     return f"Record with name {self.temp_tenant.name} is a duplicate"

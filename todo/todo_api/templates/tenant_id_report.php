@@ -96,8 +96,12 @@ if (!$result) {
     </header>
 
     <table>
+        <div style="display: flex; justify-content: center; gap: 5px">
+            <form> Enter ID: <input type="text" name="tenant_id"></form>
+        </div>
+
         <!-- code in progress -->
-         <div style="text-align: center"><h5>*Code in progress*</h5></div>
+        <div style="text-align: center"><h5>*Code in progress*</h5></div>
     </table>
     <br>
 
